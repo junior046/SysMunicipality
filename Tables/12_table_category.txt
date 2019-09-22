@@ -1,0 +1,24 @@
+------DESDE Project
+CREATE TABLE category_proposal
+(
+       id_category         NUMBER(6),
+       category_type       varchar (25) CONSTRAINT category_proposal_nn NOT NULL,
+       id_proposal         NUMBER(6)
+);
+
+------------------------------------------------------------------------------
+
+ALTER TABLE category_proposal
+      ADD CONSTRAINT pk_id_category PRIMARY KEY (id_category)
+      USING INDEX
+      TABLESPACE PROJECT_Ind PCTFREE 20
+      STORAGE (INITIAL 10K NEXT 10K PCTINCREASE 0);
+      
+------------------------------------------------------------------------
+
+ALTER TABLE category_proposal         
+  ADD CONSTRAINT fk_id_proposal_category
+  FOREIGN KEY (id_proposal)
+  REFERENCES proposal(id_proposal)
+  on delete cascade;
+  

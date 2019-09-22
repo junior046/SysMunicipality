@@ -1,0 +1,21 @@
+------DESDE Project
+CREATE TABLE telephone
+(
+       id_telephone         NUMBER(6),
+       telephone            NUMBER (10) CONSTRAINT telephone_telephone_nn NOT NULL,
+       id_person            NUMBER(6)
+);
+
+---------------------------------------------------
+ALTER TABLE telephone
+      ADD CONSTRAINT pk_id_telephone PRIMARY KEY (id_telephone)
+      USING INDEX
+      TABLESPACE PROJECT_Ind PCTFREE 20
+      STORAGE (INITIAL 10K NEXT 10K PCTINCREASE 0);
+--------------------------------------------------
+
+ALTER TABLE telephone         
+  ADD CONSTRAINT fk_id_person_tel
+  FOREIGN KEY (id_person)
+  REFERENCES person(id_person)
+  on delete cascade;

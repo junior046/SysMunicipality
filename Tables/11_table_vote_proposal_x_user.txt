@@ -1,0 +1,29 @@
+------DESDE Project
+CREATE TABLE vote_proposal_x_user
+(
+       id_proposal         NUMBER(6),
+       id_user             NUMBER(6),
+       vote                NUMBER (1)
+);
+
+--------------------------------------------------
+ALTER TABLE vote_proposal_x_user
+      ADD CONSTRAINT pk_id_vote PRIMARY KEY (id_proposal, id_user)
+      USING INDEX
+      TABLESPACE PROJECT_Ind PCTFREE 20
+      STORAGE (INITIAL 10K NEXT 10K PCTINCREASE 0);
+--------------------------------------------------
+
+ALTER TABLE vote_proposal_x_user         
+  ADD CONSTRAINT fk_id_user_vote
+  FOREIGN KEY (id_user)
+  REFERENCES p_user(id_user)
+  on delete cascade;
+  
+  ------------------------------------------------
+  
+  ALTER TABLE vote_proposal_x_user         
+  ADD CONSTRAINT fk_id_proposal_vote
+  FOREIGN KEY (id_proposal)
+  REFERENCES proposal(id_proposal)
+  on delete cascade;

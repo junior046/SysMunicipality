@@ -1,0 +1,10 @@
+----DESDE SYS
+CREATE USER administrator
+       IDENTIFIED BY administrator
+       DEFAULT TABLESPACE ADMIN_Data
+       QUOTA 10M ON ADMIN_Data
+       TEMPORARY TABLESPACE temp
+       QUOTA 5M ON system;
+       
+GRANT CONNECT TO administrator;
+GRANT CREATE ANY TABLE TO administrator;

@@ -1,0 +1,20 @@
+CREATE TABLE email
+(
+       id_email             NUMBER(6),
+       email                VARCHAR2(20) CONSTRAINT email_email_nn NOT NULL,
+       id_person            NUMBER(6)
+);
+
+---------------------------------------------------
+ALTER TABLE email
+      ADD CONSTRAINT pk_id_email PRIMARY KEY (id_email)
+      USING INDEX
+      TABLESPACE PROJECT_Ind PCTFREE 20
+      STORAGE (INITIAL 10K NEXT 10K PCTINCREASE 0);
+--------------------------------------------------
+
+ALTER TABLE email         
+  ADD CONSTRAINT fk_id_person
+  FOREIGN KEY (id_person)
+  REFERENCES person(id_person)
+  on delete cascade;

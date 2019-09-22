@@ -1,0 +1,9 @@
+------DESDE AD
+CREATE TABLE binnacle
+(
+       id_binnacle    NUMBER(6),
+       user_password  VARCHAR2(15) CONSTRAINT binnacle_password_nn NOT NULL,
+       dates          DATE DEFAULT SYSDATE CONSTRAINT binnacle_dates_nn NOT NULL
+);
+
+--falta el foreing key de user

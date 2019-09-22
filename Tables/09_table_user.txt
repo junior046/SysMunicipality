@@ -1,0 +1,20 @@
+CREATE TABLE p_user
+(
+        id_user            NUMBER(6),
+        user_name           VARCHAR2(20) CONSTRAINT user_username_nn NOT NULL,
+        user_password       VARCHAR2(15) CONSTRAINT binnacle_password_nn NOT NULL,
+        administrator       varchar2(1),
+        id_person           NUMBER(6)
+);
+
+ALTER TABLE p_user
+      ADD CONSTRAINT pk_id_user PRIMARY KEY (id_user)
+      USING INDEX
+      TABLESPACE PROJECT_Ind PCTFREE 20
+      STORAGE (INITIAL 10K NEXT 10K PCTINCREASE 0);
+      
+ALTER TABLE p_user         
+  ADD CONSTRAINT fk_id_person_user
+  FOREIGN KEY (id_person)
+  REFERENCES person(id_person)
+  on delete cascade;

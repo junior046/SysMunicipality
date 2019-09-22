@@ -1,0 +1,6 @@
+------DESDE Project
+CREATE TABLE country
+(
+       id_country         NUMBER(6),
+       country_name       varchar (25) CONSTRAINT country_country_nn NOT NULL
+);

@@ -1,0 +1,16 @@
+
+------DESDE Project
+CREATE TABLE province
+(
+       id_province         NUMBER(6),
+       province_name       varchar (25) CONSTRAINT province_province_nn NOT NULL,
+       id_country          NUMBER(6)
+);
+
+---------------------------------------------------
+ALTER TABLE province
+      ADD CONSTRAINT pk_id_province PRIMARY KEY (id_province)
+      USING INDEX
+      TABLESPACE PROJECT_Ind PCTFREE 20
+      STORAGE (INITIAL 10K NEXT 10K PCTINCREASE 0);
+-------------------------------------------------
