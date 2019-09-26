@@ -1,0 +1,41 @@
+------DESDE Project
+CREATE TABLE p_comment
+(
+       id_comment         NUMBER(6),
+       p_comment          VARCHAR (200),
+       date_comment       DATE DEFAULT SYSDATE CONSTRAINT comment_date_nn NOT NULL,
+       id_user            NUMBER(6),
+       id_proposal        NUMBER(6)
+);
+
+--------------------------------------------------
+ALTER TABLE p_comment
+      ADD CONSTRAINT pk_id_comment PRIMARY KEY (id_comment)
+      USING INDEX
+      TABLESPACE sysmunicipality_Ind PCTFREE 20
+      STORAGE (INITIAL 10K NEXT 10K PCTINCREASE 0);
+--------------------------------------------------
+
+ALTER TABLE p_comment         
+  ADD CONSTRAINT fk_id_proposal_comment
+  FOREIGN KEY (id_proposal)
+  REFERENCES proposal(id_proposal)
+  on delete cascade;
+  
+  ------------------------------------------------
+  
+  ALTER TABLE p_comment         
+  ADD CONSTRAINT fk_id_user_comment
+  FOREIGN KEY (id_user)
+  REFERENCES p_user(id_user)
+  on delete cascade;
+
+
+ --Punto 1
+ALTER TABLE p_comment
+      ADD
+      (fec_creacion DATE,
+      usuario_creacion VARCHAR2(10),
+      fec_ultima_modificacion DATE,
+      usuario_ultima_modificacion VARCHAR2(10)
+      );

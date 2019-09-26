@@ -1,0 +1,42 @@
+------DESDE Project
+CREATE TABLE proposal
+(
+       id_proposal         NUMBER(6),
+       proposal_title       varchar (25) CONSTRAINT proposal_title_nn NOT NULL,
+       proposal_description varchar (25) CONSTRAINT proposal_description_nn NOT NULL,
+       qualification        NUMBER(6),
+       budget               NUMBER(6),
+       id_person           number(6),
+       id_community        number(6)
+);
+
+--------------------------------------------------
+ALTER TABLE proposal
+      ADD CONSTRAINT pk_id_proposal PRIMARY KEY (id_proposal)
+      USING INDEX
+      TABLESPACE PROJECT_Ind PCTFREE 20
+      STORAGE (INITIAL 10K NEXT 10K PCTINCREASE 0);
+--------------------------------------------------
+
+ALTER TABLE proposal         
+  ADD CONSTRAINT fk_id_person_proposal
+  FOREIGN KEY (id_person)
+  REFERENCES person(id_person)
+  on delete cascade;
+  
+  ------------------------------------------------
+  
+  ALTER TABLE proposal         
+  ADD CONSTRAINT fk_id_community_proposal
+  FOREIGN KEY (id_community)
+  REFERENCES community(id_community)
+  on delete cascade;
+
+
+ALTER TABLE proposal
+      ADD
+      (fec_creacion DATE,
+      usuario_creacion VARCHAR2(10),
+      fec_ultima_modificacion DATE,
+      usuario_ultima_modificacion VARCHAR2(10)
+      );

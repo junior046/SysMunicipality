@@ -1,0 +1,30 @@
+------DESDE Project
+CREATE TABLE canton
+(
+       id_canton         NUMBER(6),
+       canton_name       varchar (25) CONSTRAINT canton_canton_nn NOT NULL,
+       id_province       NUMBER(6)
+);
+
+---------------------------------------------------
+ALTER TABLE canton
+      ADD CONSTRAINT pk_id_canton PRIMARY KEY (id_canton)
+      USING INDEX
+      TABLESPACE sysmunicipality_Ind PCTFREE 20
+      STORAGE (INITIAL 10K NEXT 10K PCTINCREASE 0);
+--------------------------------------------------
+
+ALTER TABLE canton         
+  ADD CONSTRAINT fk_id_province_canton
+  FOREIGN KEY (id_province)
+  REFERENCES province(id_province)
+  on delete cascade;
+
+--Punto 1
+ALTER TABLE canton
+      ADD
+      (fec_creacion DATE,
+      usuario_creacion VARCHAR2(10),
+      fec_ultima_modificacion DATE,
+      usuario_ultima_modificacion VARCHAR2(10)
+      );

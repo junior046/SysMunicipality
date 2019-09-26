@@ -1,0 +1,39 @@
+
+------DESDE Project
+CREATE TABLE district
+(
+       id_district         NUMBER(6),
+       district_name       varchar (25) CONSTRAINT district_district_nn NOT NULL,
+       id_person           NUMBER(6),
+       id_canton           number(6)
+);
+
+---------------------------------------------------
+ALTER TABLE district
+      ADD CONSTRAINT pk_id_district PRIMARY KEY (id_district)
+      USING INDEX
+      TABLESPACE PROJECT_Ind PCTFREE 20
+      STORAGE (INITIAL 10K NEXT 10K PCTINCREASE 0);
+--------------------------------------------------
+
+ALTER TABLE district         
+  ADD CONSTRAINT fk_id_person_district
+  FOREIGN KEY (id_person)
+  REFERENCES person(id_person)
+  on delete cascade;
+----------------------------------------------------
+
+ALTER TABLE district         
+  ADD CONSTRAINT fk_id_canton_district
+  FOREIGN KEY (id_canton)
+  REFERENCES canton(id_canton)
+  on delete cascade;
+
+--Punto 1
+ALTER TABLE district
+      ADD
+      (fec_creacion DATE,
+      usuario_creacion VARCHAR2(10),
+      fec_ultima_modificacion DATE,
+      usuario_ultima_modificacion VARCHAR2(10)
+      );

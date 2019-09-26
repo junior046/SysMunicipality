@@ -1,0 +1,30 @@
+
+------DESDE Project
+CREATE TABLE community
+(
+       id_community         NUMBER(6),
+       community_name       varchar (25) CONSTRAINT community_community_nn NOT NULL,
+       id_district           number(6)
+);
+
+---------------------------------------------------
+ALTER TABLE community
+      ADD CONSTRAINT pk_id_community PRIMARY KEY (id_community)
+      USING INDEX
+      TABLESPACE sysmunicipality_Ind PCTFREE 20
+      STORAGE (INITIAL 10K NEXT 10K PCTINCREASE 0);
+--------------------------------------------------
+
+ALTER TABLE community         
+  ADD CONSTRAINT fk_id_district_community
+  FOREIGN KEY (id_district)
+  REFERENCES district(id_district)
+  on delete cascade;
+
+ALTER TABLE community
+      ADD
+      (fec_creacion DATE,
+      usuario_creacion VARCHAR2(10),
+      fec_ultima_modificacion DATE,
+      usuario_ultima_modificacion VARCHAR2(10)
+      );  

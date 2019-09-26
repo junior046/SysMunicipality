@@ -1,0 +1,24 @@
+CREATE TABLE person
+(
+       id_person            NUMBER(6),
+       first_name           VARCHAR2(20) CONSTRAINT person_firstname_nn NOT NULL,
+       first_last_name      VARCHAR2(25) CONSTRAINT person_first_lastname_nn NOT NULL,
+       second_last_name     VARCHAR2(25) CONSTRAINT person_second_lastname_nn NOT NULL,
+       birth_date           DATE constraint person_birth_date_nn not null,
+       TIFF_photo_user      ORDSYS.ORDImage
+);
+
+ALTER TABLE person
+      ADD CONSTRAINT pk_id_person PRIMARY KEY (id_person)
+      USING INDEX
+      TABLESPACE PROJECT_Ind PCTFREE 20
+      STORAGE (INITIAL 10K NEXT 10K PCTINCREASE 0);
+
+--Punto 1
+ALTER TABLE person
+      ADD
+      (fec_creacion DATE,
+      usuario_creacion VARCHAR2(10),
+      fec_ultima_modificacion DATE,
+      usuario_ultima_modificacion VARCHAR2(10)
+      );
