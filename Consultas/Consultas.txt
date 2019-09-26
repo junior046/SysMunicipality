@@ -1,0 +1,64 @@
+-----------------------top propuestas con mas votos--------------------------
+/*
+select * 
+from (SELECT count(p.id_proposal), p.proposal_title
+             FROM proposal p inner join vote_proposal_x_user vu on p.id_proposal=vu.id_proposal
+             group by p.id_proposal,p.proposal_title
+             order by count(p.id_proposal) desc)
+where ROWNUM <= 2
+*/
+
+CREATE OR REPLACE function  getTopProposals (topN IN NUMBER)  
+     RETURN SYS_REFCURSOR
+  IS
+     l_return   SYS_REFCURSOR;
+BEGIN
+            open l_return for
+            select *
+            from (SELECT count(p.id_proposal), p.proposal_title
+                 FROM proposal p inner join vote_proposal_x_user vu on p.id_proposal=vu.id_proposal
+                 group by p.id_proposal,p.proposal_title
+                 order by count(p.id_proposal) desc)
+            where ROWNUM <= topN;
+            return l_return;
+END;
+-------------------------TOP comunidades  con mas propuestas-------------------------
+/*
+select * 
+from (SELECT count(c.id_community), c.community_name
+             FROM proposal p inner join community c on p.id_community=c.id_community
+             group by c.id_community,c.community_name
+             order by count(c.id_community) desc)
+where ROWNUM <= 2
+*/
+
+CREATE OR REPLACE function  getTopCommunities (topN IN NUMBER)  
+     RETURN SYS_REFCURSOR
+  IS
+     l_return   SYS_REFCURSOR;
+BEGIN
+            open l_return for
+            select * 
+            from (SELECT count(c.id_community), c.community_name
+                 FROM proposal p inner join community c on p.id_community=c.id_community
+                 group by c.id_community,c.community_name
+                 order by count(c.id_community) desc)
+             where ROWNUM <= topN;
+            return l_return;
+END;
+---------------------Propuestas de un usuario -----------------
+/*SELECT p.ID_proposal,p.proposal_title,p.proposal_description
+             FROM proposal p inner join vote_proposal_x_user vu on p.id_proposal=vu.id_proposal
+             Where(vu.id_user = 0);*/
+			 
+			 CREATE OR REPLACE function  getProposals (id_Search IN NUMBER)  
+     RETURN SYS_REFCURSOR
+  IS
+     l_return   SYS_REFCURSOR;
+BEGIN
+            open l_return for
+            SELECT p.ID_proposal,p.proposal_title,p.proposal_description
+             FROM proposal p inner join vote_proposal_x_user vu on p.id_proposal=vu.id_proposal
+             Where(vu.id_user = id_Search);
+            return l_return;
+END;
