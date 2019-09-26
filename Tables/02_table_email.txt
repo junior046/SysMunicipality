@@ -9,7 +9,7 @@ CREATE TABLE email
 ALTER TABLE email
       ADD CONSTRAINT pk_id_email PRIMARY KEY (id_email)
       USING INDEX
-      TABLESPACE PROJECT_Ind PCTFREE 20
+      TABLESPACE sysmunicipality_Ind PCTFREE 20
       STORAGE (INITIAL 10K NEXT 10K PCTINCREASE 0);
 --------------------------------------------------
 
@@ -18,3 +18,12 @@ ALTER TABLE email
   FOREIGN KEY (id_person)
   REFERENCES person(id_person)
   on delete cascade;
+
+--Punto 1
+ALTER TABLE email
+      ADD
+      (fec_creacion DATE,
+      usuario_creacion VARCHAR2(10),
+      fec_ultima_modificacion DATE,
+      usuario_ultima_modificacion VARCHAR2(10)
+      );

@@ -28,3 +28,12 @@ ALTER TABLE district
   FOREIGN KEY (id_canton)
   REFERENCES canton(id_canton)
   on delete cascade;
+
+--Punto 1
+ALTER TABLE district
+      ADD
+      (fec_creacion DATE,
+      usuario_creacion VARCHAR2(10),
+      fec_ultima_modificacion DATE,
+      usuario_ultima_modificacion VARCHAR2(10)
+      );

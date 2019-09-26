@@ -11,7 +11,7 @@ CREATE TABLE community
 ALTER TABLE community
       ADD CONSTRAINT pk_id_community PRIMARY KEY (id_community)
       USING INDEX
-      TABLESPACE PROJECT_Ind PCTFREE 20
+      TABLESPACE sysmunicipality_Ind PCTFREE 20
       STORAGE (INITIAL 10K NEXT 10K PCTINCREASE 0);
 --------------------------------------------------
 
@@ -20,3 +20,11 @@ ALTER TABLE community
   FOREIGN KEY (id_district)
   REFERENCES district(id_district)
   on delete cascade;
+
+ALTER TABLE community
+      ADD
+      (fec_creacion DATE,
+      usuario_creacion VARCHAR2(10),
+      fec_ultima_modificacion DATE,
+      usuario_ultima_modificacion VARCHAR2(10)
+      );  

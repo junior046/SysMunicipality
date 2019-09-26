@@ -1,4 +1,3 @@
-
 ------DESDE Project
 CREATE TABLE p_comment
 (
@@ -13,7 +12,7 @@ CREATE TABLE p_comment
 ALTER TABLE p_comment
       ADD CONSTRAINT pk_id_comment PRIMARY KEY (id_comment)
       USING INDEX
-      TABLESPACE PROJECT_Ind PCTFREE 20
+      TABLESPACE sysmunicipality_Ind PCTFREE 20
       STORAGE (INITIAL 10K NEXT 10K PCTINCREASE 0);
 --------------------------------------------------
 
@@ -30,3 +29,13 @@ ALTER TABLE p_comment
   FOREIGN KEY (id_user)
   REFERENCES p_user(id_user)
   on delete cascade;
+
+
+ --Punto 1
+ALTER TABLE p_comment
+      ADD
+      (fec_creacion DATE,
+      usuario_creacion VARCHAR2(10),
+      fec_ultima_modificacion DATE,
+      usuario_ultima_modificacion VARCHAR2(10)
+      );

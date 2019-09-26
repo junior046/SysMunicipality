@@ -1,0 +1,12 @@
+CREATE TABLE type_user
+(
+        id_type_user        NUMBER(6),
+        type_user_name           VARCHAR2(20) CONSTRAINT type_user_nn NOT NULL
+);
+      
+
+ALTER TABLE type_user
+      ADD CONSTRAINT pk_id_type_user PRIMARY KEY (id_type_user)
+      USING INDEX
+      TABLESPACE sysmunicipality_Ind PCTFREE 20
+      STORAGE (INITIAL 10K NEXT 10K PCTINCREASE 0);    

@@ -10,7 +10,7 @@ CREATE TABLE vote_proposal_x_user
 ALTER TABLE vote_proposal_x_user
       ADD CONSTRAINT pk_id_vote PRIMARY KEY (id_proposal, id_user)
       USING INDEX
-      TABLESPACE PROJECT_Ind PCTFREE 20
+      TABLESPACE sysmunicipality_Ind PCTFREE 20
       STORAGE (INITIAL 10K NEXT 10K PCTINCREASE 0);
 --------------------------------------------------
 
@@ -27,3 +27,13 @@ ALTER TABLE vote_proposal_x_user
   FOREIGN KEY (id_proposal)
   REFERENCES proposal(id_proposal)
   on delete cascade;
+
+
+
+ALTER TABLE vote_proposal_x_user
+      ADD
+      (fec_creacion DATE,
+      usuario_creacion VARCHAR2(10),
+      fec_ultima_modificacion DATE,
+      usuario_ultima_modificacion VARCHAR2(10)
+      );

@@ -1,6 +1,22 @@
+
 ------DESDE Project
 CREATE TABLE country
 (
        id_country         NUMBER(6),
        country_name       varchar (25) CONSTRAINT country_country_nn NOT NULL
 );
+
+
+--Punto 1
+ALTER TABLE country
+      ADD
+      (fec_creacion DATE,
+      usuario_creacion VARCHAR2(10),
+      fec_ultima_modificacion DATE,
+      usuario_ultima_modificacion VARCHAR2(10)
+      );
+ALTER TABLE country
+      ADD CONSTRAINT pk_id_country PRIMARY KEY (id_country)
+      USING INDEX
+      TABLESPACE sysmunicipality_Ind PCTFREE 20
+      STORAGE (INITIAL 10K NEXT 10K PCTINCREASE 0);

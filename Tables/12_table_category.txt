@@ -11,7 +11,7 @@ CREATE TABLE category_proposal
 ALTER TABLE category_proposal
       ADD CONSTRAINT pk_id_category PRIMARY KEY (id_category)
       USING INDEX
-      TABLESPACE PROJECT_Ind PCTFREE 20
+      TABLESPACE sysmunicipality_Ind PCTFREE 20
       STORAGE (INITIAL 10K NEXT 10K PCTINCREASE 0);
       
 ------------------------------------------------------------------------
@@ -22,3 +22,11 @@ ALTER TABLE category_proposal
   REFERENCES proposal(id_proposal)
   on delete cascade;
   
+
+ALTER TABLE category_proposal
+      ADD
+      (fec_creacion DATE,
+      usuario_creacion VARCHAR2(10),
+      fec_ultima_modificacion DATE,
+      usuario_ultima_modificacion VARCHAR2(10)
+      );

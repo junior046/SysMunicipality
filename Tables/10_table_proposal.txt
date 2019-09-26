@@ -31,3 +31,12 @@ ALTER TABLE proposal
   FOREIGN KEY (id_community)
   REFERENCES community(id_community)
   on delete cascade;
+
+
+ALTER TABLE proposal
+      ADD
+      (fec_creacion DATE,
+      usuario_creacion VARCHAR2(10),
+      fec_ultima_modificacion DATE,
+      usuario_ultima_modificacion VARCHAR2(10)
+      );
