@@ -62,3 +62,46 @@ BEGIN
              Where(vu.id_user = id_Search);
             return l_return;
 END;
+----------------------------Filtros-------------
+
+---Calificacion
+CREATE OR REPLACE function  getProposalsQuiali (qualificationSearch IN number)  
+     RETURN SYS_REFCURSOR
+  IS
+     l_return   SYS_REFCURSOR;
+BEGIN
+            open l_return for
+            SELECT *
+             FROM proposal p 
+             Where(p.qualification = qualificationSearch);
+            return l_return;
+END;
+
+
+CREATE OR REPLACE function  orderPerQualification  
+     RETURN SYS_REFCURSOR
+  IS
+     l_return   SYS_REFCURSOR;
+BEGIN
+            open l_return for
+            SELECT *
+             FROM proposal p 
+             order by p.qualification;
+            return l_return;
+END;
+
+CREATE OR REPLACE function  orderbyVotes
+     RETURN SYS_REFCURSOR
+  IS
+     l_return   SYS_REFCURSOR;
+BEGIN
+            open l_return for
+            SELECT p.ID_proposal,p.proposal_title,p.proposal_description,count(p.ID_proposal)
+             FROM proposal p inner join vote_proposal_x_user vu on p.id_proposal=vu.id_proposal
+             group by(p.ID_proposal,p.proposal_title,p.proposal_description)
+             order by(count(p.ID_proposal));
+            return l_return;
+END;
+
+
+
