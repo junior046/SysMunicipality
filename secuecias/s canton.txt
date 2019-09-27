@@ -1,0 +1,7 @@
+Create Sequence s_Canton
+Start with 1
+Increment by 1
+MinValue 0
+MaxValue 10000000
+NOCACHE
+NOCYCLE;

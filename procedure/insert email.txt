@@ -1,0 +1,29 @@
+CREATE OR REPLACE PROCEDURE insertEMAIL(
+    emailperson   IN   email.email%TYPE,
+    idperson      IN   email.id_person%TYPE
+) IS
+    personid email.id_person%TYPE;
+BEGIN
+    SELECT
+        id_person
+    INTO person_id
+    FROM
+        person
+    WHERE
+        personid=id_person;
+
+    INSERT INTO email (
+        id_email,
+        email,
+        id_person
+    ) VALUES (
+        s_email.NEXTVAL,
+        emailperson,
+        idperson
+    );
+
+    COMMIT;
+EXCEPTION
+  WHEN not_data_found THEN
+    dbms_output.put_line('NO EXISTE UNA PERSONA REGISTRADA CON ESE ID');
+END insertEMAIL;

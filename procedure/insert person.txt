@@ -1,0 +1,25 @@
+CREATE OR REPLACE PROCEDURE insertperson (
+    firstname        IN   person.first_name%TYPE,
+    firstlastname    IN   person.first_last_name%TYPE,
+    secondlastname   IN   person.second_last_name%TYPE,
+    birthdate        IN   person.birth_date%TYPE
+) IS
+BEGIN
+    INSERT INTO person (
+        id_person,
+        first_name,
+        first_last_name,
+        second_last_name,
+        birth_date
+    ) VALUES (
+        s_person.NEXTVAL,
+        firstname,
+        firstlastname,
+        secondlastname,
+        birthdate
+    );
+
+    COMMIT;
+END insertperson;
+/
+------

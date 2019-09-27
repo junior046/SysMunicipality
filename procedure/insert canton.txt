@@ -1,0 +1,31 @@
+
+CREATE OR REPLACE PROCEDURE insertcanton (
+    cantonname   IN   canton.canton_name%TYPE,
+    provinceid   IN   canton.id_province%TYPE
+) IS
+    prov_id canton.id_province%TYPE;
+BEGIN
+    SELECT
+        id_province
+    INTO prov_id
+    FROM
+        province
+    WHERE
+        provinceid = id_province;
+
+    INSERT INTO canton (
+        id_canton,
+        canton_name,
+        id_province
+    ) VALUES (
+        s_canton.NEXTVAL,
+        cantonname,
+        provinceid
+    );
+
+    COMMIT;
+EXCEPTION
+    WHEN no_data_found THEN
+        dbms_output.put_line('NO EXISTE LA PROVINCIA AL QUE SE QUIERE ASOCIARLE EL CANTÓN');
+END insertcanton;
+/

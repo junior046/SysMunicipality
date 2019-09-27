@@ -1,0 +1,29 @@
+create or replace PROCEDURE insertcommunity (
+    communityname   IN   community.community_name%TYPE,
+    districtid      IN   community.id_district%TYPE
+) IS
+    dist_id community.id_district%TYPE;
+BEGIN
+    SELECT
+        id_district
+    INTO DIST_id
+    FROM
+        DISTRICT
+    WHERE
+        districtid = id_district;
+
+    INSERT INTO COMMUNITY (
+        id_community,
+        community_name,
+        id_district
+    ) VALUES (
+        S_COMMUNITY.NEXTVAL,
+        communityname,
+        districtid
+    );      
+
+    COMMIT;
+EXCEPTION
+    WHEN no_data_found THEN
+        dbms_output.put_line('NO EXISTE EL DISTRITO AL QUE SE QUIERE ASOCIARLE LA COMUNIDAD');
+END insertcommunity;

@@ -1,0 +1,30 @@
+CREATE OR REPLACE PROCEDURE insertprovince (
+    provincename   IN   province.province_name%TYPE,
+    countryid      IN   province.id_country%TYPE
+) IS
+    count_id province.id_country%TYPE;
+BEGIN
+    SELECT
+        id_country
+    INTO count_id
+    FROM
+        country
+    WHERE
+        countryid = id_country;
+
+    INSERT INTO province (
+        id_province,
+        province_name,
+        id_country
+    ) VALUES (
+        s_province.NEXTVAL,
+        provincename,
+        countryid
+    );
+
+    COMMIT;
+EXCEPTION
+    WHEN no_data_found THEN
+        dbms_output.put_line('NO EXISTE EL PAÍS AL QUE QUIERE ASOCIARLE LA PROVINCIA');
+END insertprovince;
+/

@@ -1,0 +1,29 @@
+CREATE OR REPLACE PROCEDURE inserttelephone (
+    numperson   IN   telephone.telephone%TYPE,
+    idperson    IN   telephone.id_person%TYPE
+) IS
+    personid telephone.id_person%TYPE;
+BEGIN
+    SELECT
+        id_person
+    INTO personid
+    FROM
+        person
+    WHERE
+        idperson = id_person;
+
+    INSERT INTO telephone (
+        id_telephone,
+        telephone,
+        id_person
+    ) VALUES (
+        S_TELEPHONE.NEXTVAL,
+        numperson,
+        idperson
+    );
+
+    COMMIT;
+EXCEPTION
+    WHEN no_data_found THEN
+    dbms_output.put_line('NO EXISTE UNA PERSONA REGISTRADA CON ESE ID');
+END inserttelephone;
