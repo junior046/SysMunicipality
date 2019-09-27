@@ -7,11 +7,11 @@ CREATE TABLE binnacle
 );
 
 ALTER TABLE binnacle
-ADD id_person number(6); 
+ADD id_user number(6); 
 
 ALTER TABLE binnacle         
   ADD CONSTRAINT fk_id_user_pass_changed
-  FOREIGN KEY (id_person)
+  FOREIGN KEY (id_user)
   REFERENCES p_user(id_user)
   
   
