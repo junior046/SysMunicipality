@@ -51,7 +51,7 @@ END;
              FROM proposal p inner join vote_proposal_x_user vu on p.id_proposal=vu.id_proposal
              Where(vu.id_user = 0);*/
 			 
-			 CREATE OR REPLACE function  getProposals (id_Search IN NUMBER)  
+CREATE OR REPLACE function  getProposals (id_Search IN NUMBER)  
      RETURN SYS_REFCURSOR
   IS
      l_return   SYS_REFCURSOR;
@@ -64,44 +64,41 @@ BEGIN
 END;
 ----------------------------Filtros-------------
 
----Calificacion
-CREATE OR REPLACE function  getProposalsQuiali (qualificationSearch IN number)  
+
+CREATE OR REPLACE function  ranksFilters(rank in number,rangeDate1 in Date,rangeDate2 in Date, numVotes in number )
      RETURN SYS_REFCURSOR
   IS
      l_return   SYS_REFCURSOR;
 BEGIN
             open l_return for
-            SELECT *
-             FROM proposal p 
-             Where(p.qualification = qualificationSearch);
+            SELECT * 
+            from(
+                   SELECT p.ID_proposal,p.proposal_title,p.proposal_description,p.qualification,count(p.ID_proposal) as Votes
+                   FROM proposal p inner join vote_proposal_x_user vu on p.id_proposal=vu.id_proposal
+                   group by(p.ID_proposal,p.proposal_title,p.proposal_description,p.qualification)
+                   order by(p.qualification)
+                   )
+             
+             WHERE (qualification>rank OR rank is NULL ) AND
+                   (numVotes<Votes OR numVotes is NULL);
             return l_return;
 END;
 
 
-CREATE OR REPLACE function  orderPerQualification  
+------cambio de contraseña 10 dias ---
+CREATE OR REPLACE function  getPasswordChanged(name in varchar2,last_name1 in varchar2,last_name2 in varchar2,user in varchar2, cedulaP in number)  
      RETURN SYS_REFCURSOR
   IS
-     l_return   SYS_REFCURSOR;
+       l_return   SYS_REFCURSOR;
 BEGIN
             open l_return for
-            SELECT *
-             FROM proposal p 
-             order by p.qualification;
+            select * 
+               FROM binnacle b inner join p_user u on u.id_user = b.id_user
+                               inner join person p on p.id_person = u.id_user
+               WHERE SYSDATE-10 < b.dates AND  (p.first_name = name OR name IS NULL)AND  
+                (u.user_name = user OR user IS NULL)AND  
+                (p.first_last_name = last_name1 OR first_last_name IS NULL)AND  
+                (p.second_last_name = last_name2 OR second_last_name IS NULL)/*AND  
+                (p.cedula = cedulaP OR cedulaP IS NULL)*/;
             return l_return;
 END;
-
-CREATE OR REPLACE function  orderbyVotes
-     RETURN SYS_REFCURSOR
-  IS
-     l_return   SYS_REFCURSOR;
-BEGIN
-            open l_return for
-            SELECT p.ID_proposal,p.proposal_title,p.proposal_description,count(p.ID_proposal)
-             FROM proposal p inner join vote_proposal_x_user vu on p.id_proposal=vu.id_proposal
-             group by(p.ID_proposal,p.proposal_title,p.proposal_description)
-             order by(count(p.ID_proposal));
-            return l_return;
-END;
-
-
-
