@@ -1,5 +1,5 @@
 create or replace PROCEDURE insertpcomment (
-    vcomment       IN   p_comment.id_comment%TYPE,
+    vcomment       IN   p_comment.p_comment%TYPE,
     vid_user       IN   p_comment.id_user%TYPE,
     vid_proposal   IN   p_comment.id_proposal%TYPE
 ) IS
@@ -47,3 +47,4 @@ EXCEPTION
         dbms_output.put_line('CODIGO:' || sqlcode);
         dbms_output.put_line('MENSAJE:' || sqlerrm);
 END insertpcomment;
+/
