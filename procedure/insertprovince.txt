@@ -25,6 +25,9 @@ BEGIN
     COMMIT;
 EXCEPTION
     WHEN no_data_found THEN
-        dbms_output.put_line('NO EXISTE EL PAÕS AL QUE QUIERE ASOCIARLE LA PROVINCIA');
+        dbms_output.put_line('NO EXISTE EL PA√çS AL QUE QUIERE ASOCIARLE LA PROVINCIA');
+    WHEN OTHERS THEN
+        dbms_output.put_line('CODIGO:' || sqlcode);
+        dbms_output.put_line('MENSAJE:' || sqlerrm);
 END insertprovince;
 /
