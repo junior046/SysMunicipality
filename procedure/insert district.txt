@@ -1,32 +1,34 @@
 --PROCEDIMIENTO QUE INSERTA UN DISTRITIO CON EL ID DE SU RESPECTIVA CANTON
 
-CREATE OR REPLACE PROCEDURE insertcommunity (
-    communityname   IN   community.community_name%TYPE,
-    districtid      IN   community.id_district%TYPE
+create or replace PROCEDURE insertdistrict (
+    districtname   IN   district.district_name%TYPE,
+    cantonid       IN   district.id_canton%TYPE
 ) IS
-    dist_id community.id_district%TYPE;
+    cant_id district.id_canton%TYPE;
 BEGIN
     SELECT
-        id_community
-    INTO dist_id
+        id_canton
+    INTO cant_id
     FROM
-        district
+        canton
     WHERE
-        districtid = id_community;
+        cantonid = id_canton;
 
-    INSERT INTO community (
-        id_community,
-        community_name,
-        id_district
+    INSERT INTO district (
+        id_district,
+        district_name,
+        id_canton
     ) VALUES (
-        s_community.NEXTVAL,
-        communitytname,
-        districtid
+        s_district.NEXTVAL,
+        districtname,
+        cantonid
     );
 
     COMMIT;
 EXCEPTION
     WHEN no_data_found THEN
-        dbms_output.put_line('NO EXISTE EL DISTRITO AL QUE SE QUIERE ASOCIARLE LA COMUNIDAD');
-END insertCOMMUNITY;
-/
+        dbms_output.put_line('NO EXISTE EL CANTON AL QUE SE QUIERE ASOCIARLE EL DISTRITO');
+    WHEN OTHERS THEN
+        dbms_output.put_line('CODIGO:' || sqlcode);
+        dbms_output.put_line('MENSAJE:' || sqlerrm);
+END insertdistrict;
