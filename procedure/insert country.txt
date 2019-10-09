@@ -1,4 +1,4 @@
---procedimiento para insert un país
+--procedimiento para insert un paÃ­s
 CREATE OR REPLACE PROCEDURE insertcountry (
     countryname IN country.country_name%TYPE
 ) IS
@@ -12,5 +12,8 @@ BEGIN
     );
 
     COMMIT;
+    WHEN OTHERS THEN
+        dbms_output.put_line('CODIGO:' || sqlcode);
+        dbms_output.put_line('MENSAJE:' || sqlerrm);
 END insertcountry;
 /
