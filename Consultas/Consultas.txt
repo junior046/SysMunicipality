@@ -117,4 +117,56 @@ BEGIN
                  order by(p.qualification) desc;
             return l_return;
 END;
-         
+ -----------------------Zona--------------
+ CREATE OR REPLACE function  zoneProposal(Zone)  
+     RETURN SYS_REFCURSOR
+  IS
+     l_return   SYS_REFCURSOR;
+BEGIN
+  IF condition THEN
+            open l_return for
+                 SELECT c.community_name, p.id_community as Comunidad, count(p.id_community) as Cantidad ,round(100*ratio_to_report(count(*)) over (), 2) perc
+                 FROM proposal p inner join community c on c.id_community = p.id_community
+                               inner join district d on d.id_district = c.id_district 
+                               inner join canton ca on ca.id_canton = d.id_district 
+                               inner join province pr on ca.id_province = pr.id_province
+                               inner join country co on co.id_country = pr.id_country
+
+                 group by(p.id_community, c.community_name) 
+                 order by(count(p.id_community)) desc;
+            return l_return;
+END;
+
+
+
+--------------------------age range--
+CREATE OR REPLACE function  ageRangePorcentage  
+     RETURN SYS_REFCURSOR
+  IS
+     l_return   SYS_REFCURSOR;
+BEGIN
+            open l_return for
+                 SELECT CASE 
+                 WHEN floor(months_between(sysdate,p.birth_date)/12) <= 18 THEN '0-18' 
+                 WHEN floor(months_between(sysdate,p.birth_date)/12) <= 30 THEN '19-30' 
+                 WHEN floor(months_between(sysdate,p.birth_date)/12) <= 45 THEN '31-45' 
+                 WHEN floor(months_between(sysdate,p.birth_date)/12) <= 55 THEN '46-55'
+                 WHEN floor(months_between(sysdate,p.birth_date)/12) <= 65 THEN '56-65' 
+                 WHEN floor(months_between(sysdate,p.birth_date)/12) <= 75 THEN '66-75' 
+                 WHEN floor(months_between(sysdate,p.birth_date)/12) <= 85 THEN '76-85' 
+                 ELSE '86+'
+                    END ageRange,round(100*ratio_to_report(count(*)) over (), 2) percentage
+                 FROM person p 
+                 GROUP BY CASE 
+                 WHEN floor(months_between(sysdate,p.birth_date)/12) <= 18 THEN '0-18' 
+                 WHEN floor(months_between(sysdate,p.birth_date)/12) <= 30 THEN '19-30' 
+                 WHEN floor(months_between(sysdate,p.birth_date)/12) <= 45 THEN '31-45' 
+                 WHEN floor(months_between(sysdate,p.birth_date)/12) <= 55 THEN '46-55'
+                 WHEN floor(months_between(sysdate,p.birth_date)/12) <= 65 THEN '56-65' 
+                 WHEN floor(months_between(sysdate,p.birth_date)/12) <= 75 THEN '66-75' 
+                 WHEN floor(months_between(sysdate,p.birth_date)/12) <= 85 THEN '76-85' 
+                 ELSE '86+' 
+                  END;            
+        
+            return l_return;
+END;
