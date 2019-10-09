@@ -73,17 +73,16 @@ BEGIN
             open l_return for
             SELECT * 
             from(
-                   SELECT p.ID_proposal,p.proposal_title,p.proposal_description,p.qualification,count(p.ID_proposal) as Votes
+                   SELECT p.ID_proposal,p.proposal_title,p.proposal_description,p.qualification,count(p.ID_proposal) as Votes, p.fec_creacion
                    FROM proposal p inner join vote_proposal_x_user vu on p.id_proposal=vu.id_proposal
                    group by(p.ID_proposal,p.proposal_title,p.proposal_description,p.qualification)
                    order by(p.qualification)
                    )
-             
              WHERE (qualification>rank OR rank is NULL ) AND
-                   (numVotes<Votes OR numVotes is NULL);
+                   (numVotes<Votes OR numVotes is NULL)AND
+                   ((fec_creacion<rangeDate2 AND fec_creacion>rangeDate1) OR rangeDate2 is NULL OR rangeDate1 is NULL);
             return l_return;
 END;
-
 
 ------cambio de contraseña 10 dias ---
 CREATE OR REPLACE function  getPasswordChanged(name in varchar2,last_name1 in varchar2,last_name2 in varchar2,user in varchar2, cedulaP in number)  
@@ -102,3 +101,20 @@ BEGIN
                 (p.cedula = cedulaP OR cedulaP IS NULL)*/;
             return l_return;
 END;
+
+
+
+---------------Porcentages Por calificacion--------------------
+CREATE OR REPLACE function  qualificationPorcentage  
+     RETURN SYS_REFCURSOR
+  IS
+     l_return   SYS_REFCURSOR;
+BEGIN
+            open l_return for
+                 SELECT p.qualification as Rank, count(p.qualification) as Ranked ,round(100*ratio_to_report(count(*)) over (), 2) perc
+                 FROM proposal p 
+                 group by(p.qualification) 
+                 order by(p.qualification) desc;
+            return l_return;
+END;
+         
