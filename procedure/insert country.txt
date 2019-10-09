@@ -12,6 +12,7 @@ BEGIN
     );
 
     COMMIT;
+EXCEPTION
     WHEN OTHERS THEN
         dbms_output.put_line('CODIGO:' || sqlcode);
         dbms_output.put_line('MENSAJE:' || sqlerrm);
