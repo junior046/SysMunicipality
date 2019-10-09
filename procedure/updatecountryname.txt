@@ -1,0 +1,41 @@
+create or replace PROCEDURE updatecountryname (
+    vcountryname   IN   country.country_name%TYPE,
+    vcountryid     IN   country.id_country%TYPE
+) IS
+
+    rowcountry   country%rowtype;
+    pcountryid   country.id_country%TYPE;
+    CURSOR curcountry IS
+    SELECT
+        *
+    FROM
+        country
+    FOR UPDATE;
+
+BEGIN
+    SELECT
+        id_country
+    INTO pcountryid
+    FROM
+        country
+    WHERE
+        id_country = vcountryid;
+
+    OPEN curcountry;
+    LOOP
+        FETCH curcountry INTO rowcountry;
+        EXIT WHEN curcountry%notfound;
+        IF rowcountry.id_country = vcountryid THEN
+            update country set country_name = vcountryname where current of curcountry;
+        END IF;
+    END LOOP;
+
+    CLOSE curcountry;
+    commit;
+EXCEPTION
+    WHEN no_data_found THEN
+        dbms_output.put_line('NO EXISTE EL PAÍS');
+    WHEN OTHERS THEN
+        dbms_output.put_line('CODIGO:' || sqlcode);
+        dbms_output.put_line('MENSAJE:' || sqlerrm);
+END updatecountryname;

@@ -1,0 +1,41 @@
+create or replace PROCEDURE updateprovincename (
+    vprovincename   IN   province.province_name%TYPE,
+    vcprovinceid     IN   province.id_province%TYPE
+) IS
+
+    rowprovince  province%rowtype;
+    pprovinceid   province.id_province%TYPE;
+    CURSOR curprovince IS
+    SELECT
+        *
+    FROM
+        province
+    FOR UPDATE;
+
+BEGIN
+    SELECT
+        id_province
+    INTO pprovinceid
+    FROM
+        province
+    WHERE
+        id_province = vcprovinceid;
+
+    OPEN curprovince;
+    LOOP
+        FETCH curprovince INTO rowprovince;
+        EXIT WHEN curprovince%notfound;
+        IF rowprovince.id_province = vcprovinceid THEN
+            update province set province_name = vprovincename where current of curprovince;
+        END IF;
+    END LOOP;
+
+    CLOSE curprovince;
+    commit;
+EXCEPTION
+    WHEN no_data_found THEN
+        dbms_output.put_line('NO EXISTEla provincia');
+    WHEN OTHERS THEN
+        dbms_output.put_line('CODIGO:' || sqlcode);
+        dbms_output.put_line('MENSAJE:' || sqlerrm);
+END updateprovincename;

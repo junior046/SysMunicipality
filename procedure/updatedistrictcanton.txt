@@ -1,0 +1,39 @@
+create or replace PROCEDURE updatedistrictcanton (
+    vciddistrict   IN   district.id_district%TYPE,
+    vcidcanton       IN   district.id_canton%TYPE
+) IS
+
+    CURSOR curdistrict IS
+    SELECT
+        *
+    FROM
+        district
+    FOR UPDATE;
+
+    rowdistrict   district%rowtype;
+    pdistrictid   district.id_district%TYPE;
+BEGIN
+    OPEN curdistrict;
+    LOOP
+        FETCH curdistrict INTO rowdistrict;
+        EXIT WHEN curdistrict%notfound;
+        IF rowdistrict.id_district = vciddistrict THEN
+            UPDATE district
+            SET
+                id_canton = vcidcanton
+            WHERE
+                CURRENT OF curdistrict;
+
+        END IF;
+
+    END LOOP;
+
+    CLOSE curdistrict;
+    commit;
+EXCEPTION
+    WHEN no_data_found THEN
+        dbms_output.put_line('NO EXISTE EL DISTRITO');
+    WHEN OTHERS THEN
+        dbms_output.put_line('CODIGO:' || sqlcode);
+        dbms_output.put_line('MENSAJE:' || sqlerrm);
+END updatedistrictcanton;
