@@ -25,5 +25,8 @@ BEGIN
     COMMIT;
 EXCEPTION
     WHEN no_data_found THEN
-    dbms_output.put_line('NO EXISTE UNA PERSONA REGISTRADA CON ESE ID');
+        dbms_output.put_line('NO EXISTE UNA PERSONA REGISTRADA CON ESE ID');
+    WHEN OTHERS THEN
+        dbms_output.put_line('CODIGO:' || sqlcode);
+        dbms_output.put_line('MENSAJE:' || sqlerrm);
 END inserttelephone;

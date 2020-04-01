@@ -1,0 +1,39 @@
+create or replace PROCEDURE updatenumbertelephone (
+    vcidtelephone   IN   telephone.id_telephone%TYPE,
+    vcnumber      IN   telephone.telephone%TYPE
+) IS
+
+    CURSOR curtelephone IS
+    SELECT
+        *
+    FROM
+        telephone
+    FOR UPDATE;
+
+    rowtelephone   telephone%rowtype;
+    pctelephone   telephone.id_telephone%TYPE;
+BEGIN
+    OPEN curtelephone;
+    LOOP
+        FETCH curtelephone INTO rowtelephone;
+        EXIT WHEN curtelephone%notfound;
+        IF rowtelephone.id_telephone = vcidtelephone THEN
+            UPDATE telephone
+            SET
+                telephone = vcnumber
+            WHERE
+                CURRENT OF curtelephone;
+
+        END IF;
+
+    END LOOP;
+
+    CLOSE curtelephone;
+    commit;
+EXCEPTION
+    WHEN no_data_found THEN
+        dbms_output.put_line('NO EXISTE El NÜMERO');
+    WHEN OTHERS THEN
+        dbms_output.put_line('CODIGO:' || sqlcode);
+        dbms_output.put_line('MENSAJE:' || sqlerrm);
+END updatenumbertelephone;

@@ -26,6 +26,9 @@ BEGIN
     COMMIT;
 EXCEPTION
     WHEN no_data_found THEN
-        dbms_output.put_line('NO EXISTE LA PROVINCIA AL QUE SE QUIERE ASOCIARLE EL CANTÓN');
+        dbms_output.put_line('NO EXISTE LA PROVINCIA AL QUE SE QUIERE ASOCIARLE EL CANTÃ“N');
+    WHEN OTHERS THEN
+        dbms_output.put_line('CODIGO:' || sqlcode);
+        dbms_output.put_line('MENSAJE:' || sqlerrm);
 END insertcanton;
 /

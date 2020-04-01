@@ -26,4 +26,7 @@ BEGIN
 EXCEPTION
     WHEN no_data_found THEN
         dbms_output.put_line('NO EXISTE EL DISTRITO AL QUE SE QUIERE ASOCIARLE LA COMUNIDAD');
+    WHEN OTHERS THEN
+        dbms_output.put_line('CODIGO:' || sqlcode);
+        dbms_output.put_line('MENSAJE:' || sqlerrm);
 END insertcommunity;

@@ -1,0 +1,39 @@
+create or replace PROCEDURE updatecantonprovince (
+    vccantonid   IN   canton.id_canton%TYPE,
+    vcidprovince       IN   canton.id_province%TYPE
+) IS
+
+    CURSOR curcanton IS
+    SELECT
+        *
+    FROM
+        canton
+    FOR UPDATE;
+
+    rowcanton   canton%rowtype;
+    pcantonid   canton.id_canton%TYPE;
+BEGIN
+    OPEN curcanton;
+    LOOP
+        FETCH curcanton INTO rowcanton;
+        EXIT WHEN curcanton%notfound;
+        IF rowcanton.id_canton = vccantonid THEN
+            UPDATE canton
+            SET
+                id_province = vcidprovince
+            WHERE
+                CURRENT OF curcanton;
+
+        END IF;
+
+    END LOOP;
+
+    CLOSE curcanton;
+    commit;
+EXCEPTION
+    WHEN no_data_found THEN
+        dbms_output.put_line('NO EXISTE EL CANTÖN');
+    WHEN OTHERS THEN
+        dbms_output.put_line('CODIGO:' || sqlcode);
+        dbms_output.put_line('MENSAJE:' || sqlerrm);
+END updatecantonprovince;

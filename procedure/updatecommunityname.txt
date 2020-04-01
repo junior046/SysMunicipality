@@ -1,0 +1,39 @@
+create or replace PROCEDURE updatecommunityname (
+    vcidcommunity   IN   community.id_community%TYPE,
+    vcname       IN   community.community_name%TYPE
+) IS
+
+    CURSOR curcommunity IS
+    SELECT
+        *
+    FROM
+        community
+    FOR UPDATE;
+
+    rowcommunity   community%rowtype;
+    pcommunity   community.id_community%TYPE;
+BEGIN
+    OPEN curcommunity;
+    LOOP
+        FETCH curcommunity INTO rowcommunity;
+        EXIT WHEN curcommunity%notfound;
+        IF rowcommunity.id_community = vcidcommunity THEN
+            UPDATE community
+            SET
+                community_name = vcname
+            WHERE
+                CURRENT OF curcommunity;
+
+        END IF;
+
+    END LOOP;
+
+    CLOSE curcommunity;
+    commit;
+EXCEPTION
+    WHEN no_data_found THEN
+        dbms_output.put_line('NO EXISTE LA COMUNIDAD');
+    WHEN OTHERS THEN
+        dbms_output.put_line('CODIGO:' || sqlcode);
+        dbms_output.put_line('MENSAJE:' || sqlerrm);
+END updatecommunityname;

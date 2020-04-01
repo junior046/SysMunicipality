@@ -46,5 +46,8 @@ BEGIN
     COMMIT;
 EXCEPTION
     WHEN no_data_found THEN
-        dbms_output.put_line('La persona o la comunidad que desea ingresaar no son v·lidos');
+        dbms_output.put_line('La persona o la comunidad que desea ingresaar no son v√°lidos');
+    WHEN OTHERS THEN
+        dbms_output.put_line('CODIGO:' || sqlcode);
+        dbms_output.put_line('MENSAJE:' || sqlerrm);
 END insertproposal;

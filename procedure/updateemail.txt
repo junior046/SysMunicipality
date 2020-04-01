@@ -1,0 +1,38 @@
+create or replace PROCEDURE updateemail (
+    vcidemail   IN   email.id_email%TYPE,
+    vcemail      IN   email.email%TYPE
+) IS
+
+    CURSOR curemail IS
+    SELECT
+        *
+    FROM
+        email
+    FOR UPDATE;
+
+    rowemail   email%rowtype;
+    pcemail   email.id_email%TYPE;
+BEGIN
+    OPEN curemail;
+    LOOP
+        FETCH curemail INTO rowemail;
+        EXIT WHEN curemail%notfound;
+        IF rowemail.id_email = vcidemail THEN
+            UPDATE email
+            SET
+                email = vcemail
+            WHERE
+                CURRENT OF curemail;
+
+        END IF;
+
+    END LOOP;
+
+    CLOSE curemail;
+EXCEPTION
+    WHEN no_data_found THEN
+        dbms_output.put_line('NO EXISTE El EMAIL');
+    WHEN OTHERS THEN
+        dbms_output.put_line('CODIGO:' || sqlcode);
+        dbms_output.put_line('MENSAJE:' || sqlerrm);
+END updateemail;
